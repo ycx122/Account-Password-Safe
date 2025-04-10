@@ -247,7 +247,7 @@ class PasswordManager:
         password = simpledialog.askstring("设置访问密码", "请设置访问密码:")#, show='*')
         if password:
             self.access_password_hash = hashlib.sha256(password.encode()).hexdigest()
-            self.key = base64.urlsafe_b64encode(hashlib.sha256(password.encode()).digest())
+            self.key = base64.urlsafe_b64encode(hashlib.sha3_256(password.encode()).digest())
             self.accounts = []
             self.update_account_list()
             self.current_file = None
@@ -272,7 +272,7 @@ class PasswordManager:
                     return
                 
                 self.access_password_hash = data['hash']
-                self.key = base64.urlsafe_b64encode(hashlib.sha256(password.encode()).digest())
+                self.key = base64.urlsafe_b64encode(hashlib.sha3_256(password.encode()).digest())
                 
                 # 解密数据
                 cipher = Fernet(self.key)
@@ -651,7 +651,7 @@ class PasswordManager:
                  bg=self.bg_color, fg=self.primary_color).pack(pady=(0, 10))
         
         # 版本信息
-        tk.Label(frame, text="版本 1.0.2", font=self.normal_font,
+        tk.Label(frame, text="版本 1.1.2", font=self.normal_font,
                 bg=self.bg_color, fg=self.text_color).pack()
         
         # 应用描述
